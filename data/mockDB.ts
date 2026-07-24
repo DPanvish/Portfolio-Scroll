@@ -16,6 +16,24 @@ export interface Experience {
   description: string;
 }
 
+export interface Education {
+  id: string;
+  degree: string;
+  institution: string;
+  period: string;
+  details: string[];
+}
+
+export const educationData: Education[] = [
+  {
+    id: "1",
+    degree: "B.Tech in Computer Science Engineering",
+    institution: "Raghu Institute of Technology",
+    period: "2022 — 2026",
+    details: ["Batch CSE-D", "Focus on Full-Stack Architecture, AI APIs, and System Design"],
+  }
+];
+
 export const projectsData: Project[] = [
   {
     id: "1",
