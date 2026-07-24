@@ -1,31 +1,35 @@
 @import "tailwindcss";
 
+@import "tailwindcss";
+
 @theme {
-  --color-background: #050505;
-  --color-foreground: #ededed;
-  
-  /* Cyber-glow / Neon accents */
-  --color-accent-blue: #00f3ff;
-  --color-accent-purple: #b026ff;
-  
+  --color-accent-primary: #8b5cf6; 
+  --color-accent-secondary: #f59e0b; 
+  --color-surface: #15151b; 
   --font-sans: var(--font-inter);
 }
 
 @layer base {
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    /* Hide scrollbar for cleaner cinematic feel */
+  html, body {
+    background-color: #0d0d12; 
+    color: #fafafa;
+    
     scrollbar-width: none; 
     -ms-overflow-style: none;
-  }
-  
-  body::-webkit-scrollbar {
-    display: none;
+    
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px; 
+    background-position: center center;
+    background-attachment: fixed;
   }
 }
 
-/* Utility class for neon text glow */
+* {
+  box-sizing: border-box;
+}
+
 @layer utilities {
   .text-glow {
     text-shadow: 0 0 10px var(--color-accent-blue), 0 0 20px var(--color-accent-blue);

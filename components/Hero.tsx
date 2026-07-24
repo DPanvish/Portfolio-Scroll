@@ -5,73 +5,72 @@ import gsap from "gsap";
 import SplitType from "split-type";
 
 export default function Hero() {
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subtextRef = useRef<HTMLParagraphElement>(null);
   const containerRef = useRef<HTMLElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const roleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!headlineRef.current || !subtextRef.current) return;
+    if (!headlineRef.current || !roleRef.current) return;
 
-    const splitHeadline = new SplitType(headlineRef.current, { types: 'lines,chars' });
-    const splitSubtext = new SplitType(subtextRef.current, { types: 'lines' });
-
-    gsap.set(splitHeadline.chars, { y: 100, opacity: 0 });
-    gsap.set(splitSubtext.lines, { y: 20, opacity: 0 });
-
-    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+    const splitHeadline = new SplitType(headlineRef.current, { types: 'chars' });
+    
+    gsap.set(splitHeadline.chars, { opacity: 0, y: 150, rotateX: -90, transformOrigin: "0% 50% -50" });
+    gsap.set(roleRef.current, { opacity: 0, y: 30 });
+    
+    const tl = gsap.timeline({ defaults: { ease: "expo.out", force3D: true } });
 
     tl.to(splitHeadline.chars, {
-      y: 0,
       opacity: 1,
-      duration: 1.2,
-      stagger: 0.02,
-      delay: 0.2, 
+      y: 0,
+      rotateX: 0,
+      duration: 1.5,
+      stagger: 0.04,
+      delay: 0.1,
     })
-    .to(splitSubtext.lines, {
-      y: 0,
+    .to(roleRef.current, {
       opacity: 1,
-      duration: 1,
-      stagger: 0.1,
-    }, "-=0.8"); 
+      y: 0,
+      duration: 1.2,
+    }, "-=1.2");
 
     return () => {
       splitHeadline.revert();
-      splitSubtext.revert();
       tl.kill();
     };
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden">
+    <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
       
-      {/* Dynamic Ambient Lighting - Offset to the top right */}
-      <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-accent-blue/10 blur-[140px] pointer-events-none mix-blend-screen" />
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+        <div 
+          className="w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] opacity-20"
+          style={{
+            background: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(245,158,11,0.1) 40%, rgba(0,0,0,0) 70%)',
+            transform: 'translateZ(0)' 
+          }}
+        />
+      </div>
       
-      <div className="z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-end gap-12 lg:gap-0 mt-32">
-        
-        {/* Left side: Massive Typography */}
-        <div className="w-full lg:w-2/3">
-          <h1 
-            ref={headlineRef} 
-            className="text-[12vw] leading-[0.85] font-black uppercase tracking-tighter text-neutral-100"
-            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)' }} 
-          >
-            Software
-            <br />
-            <span className="text-neutral-500">Architecture</span>
-          </h1>
+      <div className="z-10 text-center w-full px-4 flex flex-col items-center">
+        <div 
+          ref={roleRef}
+          className="mb-8 px-4 py-1.5 rounded-full border border-neutral-700 bg-surface/80 backdrop-blur-sm text-sm font-medium tracking-widest text-neutral-400 uppercase shadow-xl"
+        >
+          System Architect & Engineer
         </div>
 
-        {/* Right side: Asymmetric Subtext */}
-        <div className="w-full lg:w-1/3 flex justify-end">
-          <p 
-            ref={subtextRef} 
-            className="text-lg md:text-xl text-neutral-400 max-w-sm text-right lg:text-left leading-relaxed font-light"
-          >
-            Engineering robust backend systems and crafting immersive frontend experiences. I don't just write code; I build infrastructure.
-          </p>
-        </div>
-
+        <h1 
+          ref={headlineRef} 
+          className="text-[14vw] md:text-[10vw] leading-[0.8] font-black tracking-tighter uppercase text-white"
+          style={{ perspective: "1000px", willChange: "transform, opacity" }}
+        >
+          Building
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 to-neutral-600">
+            Systems
+          </span>
+        </h1>
       </div>
     </section>
   );
