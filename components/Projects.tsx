@@ -52,14 +52,18 @@ export default function Projects() {
           {projectsData.map((project) => (
             <div 
               key={project.id} 
-              className="w-[85vw] md:w-[45vw] lg:w-[35vw] h-[55vh] bg-neutral-900 border border-neutral-800 rounded-2xl p-8 flex flex-col justify-between shrink-0"
+              className="group w-[85vw] md:w-[45vw] lg:w-[35vw] h-[55vh] rounded-3xl p-8 flex flex-col justify-between shrink-0 relative overflow-hidden bg-neutral-900/40 backdrop-blur-md border border-neutral-800/50 hover:border-accent-blue/30 transition-colors duration-500"
             >
-              <div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">{project.title}</h3>
-                <p className="text-gray-400 mb-6 text-sm md:text-base">{project.description}</p>
+              {/* Subtle gradient overlay that appears on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              
+              <div className="relative z-10">
+                <h3 className="text-3xl font-bold mb-4 text-neutral-200">{project.title}</h3>
+                <p className="text-neutral-400 mb-6 text-sm leading-relaxed">{project.description}</p>
+                
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map(tech => (
-                    <span key={tech} className="text-xs md:text-sm px-3 py-1 bg-neutral-800 rounded-full text-accent-blue">
+                    <span key={tech} className="text-xs px-3 py-1 bg-neutral-950/80 border border-neutral-800 rounded-full text-neutral-300">
                       {tech}
                     </span>
                   ))}
