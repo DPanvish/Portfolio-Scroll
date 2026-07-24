@@ -66,7 +66,7 @@ export default function About() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative h-screen w-full flex items-center overflow-hidden border-t border-neutral-900/50">
+    <section ref={containerRef} className="relative min-h-screen lg:h-screen w-full flex items-center overflow-hidden border-t border-neutral-900/50">
       
       {/* Background Lighting */}
       <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-accent-secondary/5 blur-[120px] pointer-events-none transform-gpu" />
