@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
+import Magnetic from "@/components/Magnetic";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -71,6 +72,17 @@ export default function Hero() {
             Systems
           </span>
         </h1>
+
+        <div className="mt-12 opacity-0 transform translate-y-8" ref={el => {
+          // Add this to your timeline animation so it fades in last
+          if (el) gsap.to(el, { opacity: 1, y: 0, duration: 1, delay: 1.5, ease: "power3.out" });
+        }}>
+          <Magnetic>
+            <button className="px-8 py-4 rounded-full bg-white text-black font-semibold tracking-wide text-sm uppercase hover:bg-neutral-200 transition-colors cursor-pointer">
+              Explore Architecture
+            </button>
+          </Magnetic>
+        </div>
       </div>
     </section>
   );

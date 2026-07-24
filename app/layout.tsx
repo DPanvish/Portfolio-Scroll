@@ -2,24 +2,22 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import Noise from "@/components/Noise";
+import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Full-Stack Engineer",
+  title: "Portfolio | System Architect",
   description: "Building high-performance systems.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased selection:bg-accent-primary/30 selection:text-white`}>
-        <Noise />
+      <body className={`${inter.variable} antialiased selection:bg-white/20 selection:text-white`}>
+        <CustomCursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
