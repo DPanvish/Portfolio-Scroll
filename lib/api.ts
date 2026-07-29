@@ -24,3 +24,11 @@ export async function getEducation() {
   if (!res.ok) throw new Error("Failed to fetch education");
   return res.json();
 }
+
+export async function getAbout() {
+  const res = await fetch(`${API_URL}/about?portfolio=${PORTFOLIO_ID}`, {
+    next: { revalidate: 60 }
+  });
+  if (!res.ok) throw new Error("Failed to fetch about data");
+  return res.json();
+}
