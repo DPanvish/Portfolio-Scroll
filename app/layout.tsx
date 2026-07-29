@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import Providers from "./providers"; 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -16,9 +17,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased selection:bg-white/20 selection:text-white`}>
-        <CustomCursor />
-        <SmoothScroll>{children}</SmoothScroll>
+      <body className={`${inter.variable} antialiased selection:bg-white/20 selection:text-white bg-background text-white`}>
+        <Providers>
+          <CustomCursor />
+          <SmoothScroll>{children}</SmoothScroll>
+        </Providers>
       </body>
     </html>
   );
