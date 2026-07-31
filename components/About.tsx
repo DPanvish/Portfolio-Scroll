@@ -84,7 +84,7 @@ export default function About() {
   return (
     <section ref={containerRef} className="relative h-screen w-full flex items-center overflow-hidden border-t border-neutral-900/50 bg-background">
       
-      <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-accent-secondary/5 blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-accent-primary/5 blur-[120px] pointer-events-none transform-gpu" />
 
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-24 z-10">
         
@@ -104,7 +104,7 @@ export default function About() {
           
           <div className="flex flex-wrap gap-3">
              {about.skills?.map((skill: string, index: number) => (
-               <span key={index} className="px-4 py-2 rounded-full border border-neutral-700 bg-surface/50 text-neutral-300 text-xs tracking-wider uppercase">
+               <span key={index} className="px-4 py-2 rounded-full border border-neutral-700 bg-surface/50 text-neutral-300 text-xs tracking-wider uppercase hover:border-accent-primary hover:text-white hover:shadow-[0_0_15px_rgba(34,197,94,0.2)] transition-all duration-300 cursor-default">
                  {skill}
                </span>
              ))}

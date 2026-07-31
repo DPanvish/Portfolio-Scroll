@@ -17,7 +17,7 @@ export default function Contact() {
           <div>
             <a 
               href="mailto:hello@yourdomain.com" 
-              className="text-[10vw] md:text-[7vw] font-black uppercase tracking-tighter text-white hover:text-accent-secondary transition-colors duration-500 cursor-pointer block leading-[0.85]"
+              className="text-[10vw] md:text-[7vw] font-black uppercase tracking-tighter text-white hover:text-accent-primary hover:text-glow transition-all duration-500 cursor-pointer block leading-[0.85]"
             >
               Let's Build
               <br />
@@ -59,7 +59,7 @@ export default function Contact() {
                 <Magnetic>
                   <button 
                     type="submit" 
-                    className="px-8 py-3 rounded-full bg-white text-black font-semibold tracking-wide text-sm uppercase hover:bg-neutral-200 transition-colors cursor-pointer"
+                    className="px-8 py-3 rounded-full bg-white text-black font-semibold tracking-wide text-sm uppercase hover:bg-accent-primary hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all duration-300 cursor-pointer"
                   >
                     Send Request
                   </button>

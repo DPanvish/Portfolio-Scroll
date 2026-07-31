@@ -67,7 +67,7 @@ export default function Experience() {
           {experience?.map((job: any) => (
             <div key={job._id} className="timeline-item relative group opacity-0">
               {/* Timeline Node */}
-              <div className="absolute -left-[41px] md:-left-[57px] top-1 w-4 h-4 rounded-full border-2 border-background bg-neutral-700 group-hover:bg-accent-primary group-hover:shadow-[0_0_15px_rgba(var(--accent-primary),0.5)] transition-all duration-500" />
+              <div className="absolute -left-[41px] md:-left-[57px] top-1 w-4 h-4 rounded-full border-2 border-background bg-neutral-700 group-hover:bg-accent-primary group-hover:shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-all duration-500" />
               
               <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-4">
                 <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-neutral-100 group-hover:text-white transition-colors">
@@ -78,7 +78,7 @@ export default function Experience() {
                 </span>
               </div>
               
-              <div className="inline-block px-3 py-1 mb-6 border border-neutral-800 bg-neutral-900/50 rounded-full text-xs tracking-widest text-neutral-400 uppercase">
+              <div className="inline-block px-3 py-1 mb-6 border border-neutral-800 bg-neutral-900/50 rounded-full text-xs tracking-widest text-neutral-400 uppercase group-hover:border-accent-primary group-hover:text-white transition-all duration-300">
                 {job.period}
               </div>
               

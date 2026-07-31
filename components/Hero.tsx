@@ -47,7 +47,7 @@ export default function Hero() {
         <div 
           className="w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] opacity-20"
           style={{
-            background: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(245,158,11,0.1) 40%, rgba(0,0,0,0) 70%)',
+            background: 'radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(15,23,42,0.4) 40%, rgba(0,0,0,0) 70%)',
             transform: 'translateZ(0)' 
           }}
         />
@@ -78,7 +78,7 @@ export default function Hero() {
           if (el) gsap.to(el, { opacity: 1, y: 0, duration: 1, delay: 1.5, ease: "power3.out" });
         }}>
           <Magnetic>
-            <button className="px-8 py-4 rounded-full bg-white text-black font-semibold tracking-wide text-sm uppercase hover:bg-neutral-200 transition-colors cursor-pointer">
+            <button className="px-8 py-4 rounded-full bg-white text-black font-semibold tracking-wide text-sm uppercase hover:bg-accent-primary hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all duration-300 cursor-pointer">
               Explore Architecture
             </button>
           </Magnetic>

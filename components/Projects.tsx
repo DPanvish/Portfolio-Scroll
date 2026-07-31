@@ -56,7 +56,7 @@ export default function Projects() {
 
   return (
     <section ref={sectionRef} className="relative h-screen overflow-hidden">
-      <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] rounded-full bg-accent-secondary/5 blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] rounded-full bg-accent-primary/10 blur-[120px] pointer-events-none transform-gpu" />
 
       <div ref={containerRef} className="flex h-full w-max items-center relative z-10">
         
@@ -75,7 +75,7 @@ export default function Projects() {
             <div className="w-full max-w-6xl aspect-video md:aspect-[21/9] bg-surface/50 backdrop-blur-sm border border-neutral-800 rounded-3xl overflow-hidden relative group flex flex-col md:flex-row">
               
               <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center z-10">
-                <div className="text-accent-secondary font-mono text-sm mb-4">
+                <div className="text-accent-primary font-mono text-sm mb-4 text-glow opacity-80">
                   0{index + 1}
                 </div>
                 <h4 className="text-3xl md:text-5xl font-medium tracking-tight text-white mb-6">
@@ -86,7 +86,7 @@ export default function Projects() {
                 </p>
                 <div className="flex flex-wrap gap-3 mb-10">
                   {project.techStack.map((tech: string, i: number) => (
-                    <span key={i} className="px-4 py-1.5 rounded-full border border-neutral-700 bg-neutral-900/50 text-neutral-300 text-xs tracking-wider uppercase">
+                    <span key={i} className="px-4 py-1.5 rounded-full border border-neutral-700 bg-surface/50 text-neutral-300 text-xs tracking-wider uppercase hover:border-accent-primary hover:text-white hover:shadow-[0_0_15px_rgba(34,197,94,0.2)] transition-all duration-300 cursor-default">
                       {tech}
                     </span>
                   ))}
@@ -94,7 +94,7 @@ export default function Projects() {
                 <div className="flex gap-6 mt-auto">
                   {project.liveUrl && (
                     <Magnetic>
-                      <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm uppercase tracking-widest text-white hover:text-accent-secondary transition-colors group/link cursor-pointer">
+                      <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm uppercase tracking-widest text-white hover:text-accent-primary hover:text-glow transition-all duration-300 group/link cursor-pointer">
                         Live Deployment <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
                       </a>
                     </Magnetic>
