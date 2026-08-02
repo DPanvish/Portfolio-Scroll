@@ -57,34 +57,47 @@ export default function Experience() {
   if (isError) return null;
 
   return (
-    <section ref={containerRef} className="relative py-32 px-6 md:px-20 bg-background overflow-hidden">
-      <div className="max-w-4xl mx-auto relative z-10">
-        <h2 className="text-sm md:text-base tracking-[0.2em] uppercase text-neutral-500 mb-16 font-medium">
+    <section ref={containerRef} className="relative py-32 px-6 md:px-20 bg-background overflow-hidden min-h-screen">
+      
+      <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-accent-primary/5 blur-[150px] pointer-events-none transform-gpu" />
+
+      <div className="max-w-5xl mx-auto relative z-10">
+        <h2 className="text-sm md:text-base tracking-[0.2em] uppercase text-neutral-500 mb-20 font-medium text-center">
           Professional Trajectory
         </h2>
         
-        <div ref={timelineRef} className="relative border-l border-neutral-800 ml-4 md:ml-0 pl-8 md:pl-12 space-y-16">
-          {experience?.map((job: any) => (
-            <div key={job._id} className="timeline-item relative group opacity-0">
-              {/* Timeline Node */}
-              <div className="absolute -left-[41px] md:-left-[57px] top-1 w-4 h-4 rounded-full border-2 border-background bg-neutral-700 group-hover:bg-accent-primary group-hover:shadow-[0_0_15px_rgba(var(--accent-primary),0.5)] transition-all duration-500" />
+        <div ref={timelineRef} className="relative flex flex-col gap-4 pb-32">
+          {experience?.map((job: any, index: number) => (
+            <div 
+              key={job._id} 
+              className="timeline-item sticky top-32 bg-surface/40 backdrop-blur-xl border border-white/5 rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col md:flex-row gap-8 md:gap-16 group hover:border-white/20 transition-colors duration-500"
+              style={{ 
+                zIndex: index + 10,
+                top: `calc(100px + ${index * 20}px)` 
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem] pointer-events-none" />
               
-              <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-4">
-                <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-neutral-100 group-hover:text-white transition-colors">
-                  {job.role}
+              {/* Left Column: Period & Company */}
+              <div className="md:w-1/3 flex flex-col relative z-10 shrink-0">
+                <div className="inline-block px-4 py-1.5 mb-6 border border-neutral-800 bg-neutral-900/50 rounded-full text-xs tracking-widest text-neutral-400 uppercase w-fit group-hover:border-accent-primary group-hover:text-white transition-all duration-300">
+                  {job.period}
+                </div>
+                <h3 className="text-2xl md:text-4xl font-medium tracking-tight text-white mb-2">
+                  {job.company}
                 </h3>
-                <span className="text-accent-primary text-sm md:text-base font-mono tracking-wider">
-                  @ {job.company}
-                </span>
               </div>
               
-              <div className="inline-block px-3 py-1 mb-6 border border-neutral-800 bg-neutral-900/50 rounded-full text-xs tracking-widest text-neutral-400 uppercase">
-                {job.period}
+              {/* Right Column: Role & Details */}
+              <div className="md:w-2/3 flex flex-col relative z-10">
+                <h4 className="text-xl md:text-2xl font-light text-accent-primary mb-6">
+                  {job.role}
+                </h4>
+                <p className="text-neutral-400 font-light leading-relaxed whitespace-pre-line">
+                  {job.description}
+                </p>
               </div>
-              
-              <p className="text-neutral-400 font-light leading-relaxed max-w-2xl whitespace-pre-line">
-                {job.description}
-              </p>
+
             </div>
           ))}
         </div>
