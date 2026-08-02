@@ -23,3 +23,13 @@ export async function getAbout() {
   if (!res.ok) throw new Error("Failed to fetch about data");
   return res.json();
 }
+
+export async function submitContact(data: { name: string, email: string, message: string }) {
+  const res = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...data, portfolioSource: PORTFOLIO_ID })
+  });
+  if (!res.ok) throw new Error("Failed to submit message");
+  return res.json();
+}
