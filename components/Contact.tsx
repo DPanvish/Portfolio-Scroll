@@ -16,7 +16,7 @@ export default function Contact() {
         portfolioSource: process.env.NEXT_PUBLIC_PORTFOLIO_ID || "unknown",
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_API_URL}/contact`, {
+      const res = await fetch(`/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
