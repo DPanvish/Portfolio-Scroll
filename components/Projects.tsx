@@ -72,49 +72,57 @@ export default function Projects() {
 
         {projects?.map((project: any, index: number) => (
           <div key={project._id} className="w-[100vw] h-full flex items-center justify-center shrink-0 px-4 md:px-12">
-            <div className="w-full max-w-6xl aspect-video md:aspect-[21/9] bg-surface/50 backdrop-blur-sm border border-neutral-800 rounded-3xl overflow-hidden relative group flex flex-col md:flex-row">
+            <div className="w-full max-w-6xl aspect-[4/5] md:aspect-[21/9] rounded-3xl overflow-hidden relative group border border-white/5 shadow-2xl">
               
-              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center z-10">
-                <div className="text-accent-primary font-mono text-sm mb-4 text-glow opacity-80">
+              {/* Edge-to-edge Background Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                style={{ backgroundImage: `url(${project.thumbnailUrl})` }}
+              />
+              
+              {/* Gradient Overlay for Text Readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent md:bg-gradient-to-r md:from-black md:via-black/70 md:to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
+              
+              {/* Content Box */}
+              <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-end md:justify-center w-full md:w-3/4 lg:w-2/3 z-10">
+                
+                <div className="text-accent-primary font-mono text-sm mb-4 text-glow opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out delay-100">
                   0{index + 1}
                 </div>
-                <h4 className="text-3xl md:text-5xl font-medium tracking-tight text-white mb-6">
+                
+                <h4 className="text-4xl md:text-6xl font-medium tracking-tight text-white mb-6 opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out delay-150">
                   {project.title}
                 </h4>
-                <p className="text-neutral-400 font-light leading-relaxed mb-8 max-w-md">
+                
+                <p className="text-neutral-300 font-light leading-relaxed mb-8 max-w-xl opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out delay-200">
                   {project.description}
                 </p>
-                <div className="flex flex-wrap gap-3 mb-10">
+                
+                <div className="flex flex-wrap gap-3 mb-10 opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out delay-300">
                   {project.techStack.map((tech: string, i: number) => (
-                    <span key={i} className="px-4 py-1.5 rounded-full border border-neutral-700 bg-surface/50 text-neutral-300 text-xs tracking-wider uppercase hover:border-accent-primary hover:text-white hover:shadow-[0_0_15px_rgba(34,197,94,0.2)] transition-all duration-300 cursor-default">
+                    <span key={i} className="px-4 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-white text-xs tracking-wider uppercase hover:border-accent-primary hover:text-white hover:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 cursor-default">
                       {tech}
                     </span>
                   ))}
                 </div>
-                <div className="flex gap-6 mt-auto">
+                
+                <div className="flex gap-8 mt-auto md:mt-0 opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700 ease-out delay-500">
                   {project.liveUrl && (
                     <Magnetic>
                       <a href={project.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm uppercase tracking-widest text-white hover:text-accent-primary hover:text-glow transition-all duration-300 group/link cursor-pointer">
-                        Live Deployment <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+                        Live Deployment <ArrowUpRight className="w-5 h-5 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
                       </a>
                     </Magnetic>
                   )}
                   {project.githubUrl && (
                     <Magnetic>
-                      <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm uppercase tracking-widest text-neutral-500 hover:text-white transition-colors cursor-pointer">
+                      <a href={project.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer">
                         Source Code
                       </a>
                     </Magnetic>
                   )}
                 </div>
-              </div>
 
-              <div className="w-full md:w-1/2 h-64 md:h-full relative overflow-hidden bg-neutral-900 border-t md:border-t-0 md:border-l border-neutral-800">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                  style={{ backgroundImage: `url(${project.thumbnailUrl})` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-surface/80 to-transparent md:hidden" />
               </div>
             </div>
           </div>
