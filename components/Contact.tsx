@@ -1,128 +1,177 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { Loader2, ArrowUpRight, CheckCircle2 } from "lucide-react";
-import Magnetic from "./Magnetic"; 
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { ArrowUpRight, CheckCircle2, Loader2, Send } from "lucide-react";
+import Magnetic from "./Magnetic";
+import { submitContact } from "@/lib/api";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const containerRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
-  const mutation = useMutation({
-    mutationFn: async (data: typeof formData) => {
-      const payload = {
-        ...data,
-        portfolioSource: process.env.NEXT_PUBLIC_PORTFOLIO_ID || "unknown",
-      };
+  useEffect(() => {
+    if (!containerRef.current || !cardRef.current) return;
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_API_URL}/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+    gsap.registerPlugin(ScrollTrigger);
 
-      if (!res.ok) throw new Error("Failed to send message");
-      return res.json();
-    },
-    onSuccess: () => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(cardRef.current,
+        { opacity: 0, y: 150, scale: 0.9, rotationX: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotationX: 0,
+          duration: 1.5,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+          }
+        }
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      await submitContact(formData);
       setIsSuccess(true);
       setFormData({ name: "", email: "", message: "" });
-      // Reset success state after 5 seconds
-      setTimeout(() => setIsSuccess(false), 5000); 
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate(formData);
+      
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Failed to send message", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <section className="relative min-h-screen flex items-center py-32 px-6 md:px-20 border-t border-neutral-900/50 bg-background overflow-hidden">
+    <section ref={containerRef} className="relative py-40 px-6 md:px-12 bg-background border-t border-white/5 overflow-hidden perspective-1000">
       
-      {/* Background glow for aesthetic */}
-      <div className="absolute bottom-0 right-0 w-[50vw] h-[50vw] rounded-full bg-accent-primary/5 blur-[120px] pointer-events-none transform-gpu translate-x-1/4 translate-y-1/4" />
+      {/* Background Matrix / Grid */}
+      <div className="absolute inset-0 opacity-[0.03] z-0 pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
 
-      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-16 md:gap-24 relative z-10">
+      <div className="max-w-6xl mx-auto z-10 relative">
         
-        <div className="w-full md:w-1/2 flex flex-col justify-between">
-          <div>
-            <h2 className="text-sm md:text-base tracking-[0.2em] uppercase text-neutral-500 mb-8 font-medium">
-              Initiate Contact
+        <div ref={cardRef} className="w-full glass-panel rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 lg:p-24 shadow-[0_0_80px_rgba(59,130,246,0.1)] relative overflow-hidden group preserve-3d flex flex-col lg:flex-row gap-16">
+          
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-accent-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+          
+          {/* Left Text */}
+          <div className="lg:w-1/2 relative z-10" style={{ transform: "translateZ(50px)" }}>
+            <p className="font-sans text-xs tracking-[0.4em] uppercase text-accent-secondary mb-8 drop-shadow-[0_0_10px_rgba(96,165,250,0.5)]">
+              System Initialization
+            </p>
+
+            <h2 className="font-serif text-5xl md:text-7xl font-bold tracking-tighter text-white mb-10 leading-[0.9]">
+              LET'S BUILD <br />
+              <span className="text-glow text-transparent bg-clip-text bg-gradient-to-r from-accent-secondary via-accent-primary to-accent-secondary">
+                THE FUTURE.
+              </span>
             </h2>
-            <h3 className="text-5xl md:text-7xl font-light tracking-tight text-white mb-8">
-              Let's architect something <span className="italic text-neutral-500">exceptional.</span>
-            </h3>
-          </div>
-          
-          <div className="mt-12 md:mt-0 space-y-4">
-            <p className="text-neutral-400 font-light tracking-wide">Ready for deployment.</p>
-            <a href="mailto:your-email@example.com" className="text-xl md:text-2xl font-light hover:text-accent-primary transition-colors">
-              hello@yourdomain.com
-            </a>
-          </div>
-        </div>
-
-        <div className="w-full md:w-1/2 bg-surface/50 backdrop-blur-md border border-neutral-800 rounded-3xl p-8 md:p-12 relative overflow-hidden">
-          
-          {/* Success Overlay */}
-          <div className={`absolute inset-0 bg-neutral-900/95 backdrop-blur-xl z-20 flex flex-col items-center justify-center transition-all duration-500 ${isSuccess ? "opacity-100 visible" : "opacity-0 invisible"}`}>
-            <CheckCircle2 className="w-16 h-16 text-accent-primary mb-6" />
-            <h4 className="text-2xl font-medium text-white mb-2 tracking-tight">Transmission Received</h4>
-            <p className="text-neutral-400 font-light text-center max-w-xs">Your message has been securely routed to the database. I will review it shortly.</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="space-y-2">
-              <label className="text-xs uppercase tracking-widest text-neutral-500 font-medium">Identification</label>
-              <input required type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-background border-b border-neutral-800 px-0 py-4 text-white placeholder-neutral-700 focus:outline-none focus:border-accent-primary transition-colors rounded-none" 
-                placeholder="What is your name?" />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs uppercase tracking-widest text-neutral-500 font-medium">Return Address</label>
-              <input required type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-background border-b border-neutral-800 px-0 py-4 text-white placeholder-neutral-700 focus:outline-none focus:border-accent-primary transition-colors rounded-none" 
-                placeholder="Enter your email address" />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs uppercase tracking-widest text-neutral-500 font-medium">Message Payload</label>
-              <textarea required rows={4} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full bg-background border-b border-neutral-800 px-0 py-4 text-white placeholder-neutral-700 focus:outline-none focus:border-accent-primary transition-colors resize-none rounded-none" 
-                placeholder="How can we collaborate?" />
-            </div>
-
-            <div className="pt-4 flex justify-end">
+            
+            <p className="font-sans text-neutral-400 font-light max-w-sm mb-12">
+              Open a secure channel. Transmit your project details, and I will execute the sequence.
+            </p>
+            
+            <div className="flex flex-col gap-6">
               <Magnetic>
-                <button 
-                  type="submit" 
-                  disabled={mutation.isPending}
-                  className="group relative flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-medium tracking-wide hover:bg-neutral-200 transition-colors disabled:opacity-70"
-                >
-                  {mutation.isPending ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Encrypting...
-                    </>
-                  ) : (
-                    <>
-                      Transmit Request
-                      <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    </>
-                  )}
-                </button>
+                <a href="mailto:hello@example.com" className="w-fit flex items-center gap-4 text-white font-sans text-xs font-bold uppercase tracking-[0.2em] hover:text-accent-primary transition-colors duration-300">
+                  Direct Email
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href="https://github.com" target="_blank" rel="noreferrer" className="w-fit flex items-center gap-4 text-neutral-400 font-sans text-xs font-bold uppercase tracking-[0.2em] hover:text-white transition-colors duration-300">
+                  GitHub Profile
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
               </Magnetic>
             </div>
+          </div>
+          
+          {/* Right Form */}
+          <div className="lg:w-1/2 relative z-10" style={{ transform: "translateZ(30px)" }}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="font-sans text-xs uppercase tracking-[0.2em] text-neutral-500">Target Identity (Name)</label>
+                <input 
+                  type="text" 
+                  id="name"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-6 py-4 text-white font-sans focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all placeholder:text-neutral-700"
+                  placeholder="Enter designation..."
+                />
+              </div>
+              
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="font-sans text-xs uppercase tracking-[0.2em] text-neutral-500">Return Address (Email)</label>
+                <input 
+                  type="email" 
+                  id="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-6 py-4 text-white font-sans focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all placeholder:text-neutral-700"
+                  placeholder="name@domain.com"
+                />
+              </div>
+              
+              <div className="flex flex-col gap-2 mb-4">
+                <label htmlFor="message" className="font-sans text-xs uppercase tracking-[0.2em] text-neutral-500">Encrypted Payload (Message)</label>
+                <textarea 
+                  id="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  className="w-full bg-black/40 border border-white/10 rounded-xl px-6 py-4 text-white font-sans focus:outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary/50 transition-all resize-none placeholder:text-neutral-700"
+                  placeholder="Detail the architecture requirements..."
+                />
+              </div>
+              
+              <button 
+                type="submit" 
+                disabled={isSubmitting || isSuccess}
+                className="w-full group relative overflow-hidden rounded-xl bg-white text-black font-sans text-xs font-bold tracking-[0.2em] uppercase py-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <div className="absolute inset-0 bg-accent-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <span className="relative z-10 flex items-center justify-center gap-3 group-hover:text-white transition-colors duration-300">
+                  {isSubmitting ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Transmitting...</>
+                  ) : isSuccess ? (
+                    <><CheckCircle2 className="w-4 h-4 text-green-500 group-hover:text-white" /> Sequence Executed</>
+                  ) : (
+                    <><Send className="w-4 h-4" /> Execute CommLink</>
+                  )}
+                </span>
+              </button>
+              
+            </form>
+          </div>
+          
+        </div>
 
-            {mutation.isError && (
-              <p className="text-red-500 text-sm mt-4 tracking-wide text-right">
-                Transmission failed. Please try again.
-              </p>
-            )}
-          </form>
+        <div className="mt-24 text-center text-xs font-sans tracking-[0.3em] uppercase text-neutral-600">
+          © {new Date().getFullYear()} System Architect. All Rights Reserved.
         </div>
       </div>
     </section>

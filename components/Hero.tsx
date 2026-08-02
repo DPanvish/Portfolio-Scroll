@@ -7,93 +7,100 @@ import Magnetic from "@/components/Magnetic";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const roleRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (!headlineRef.current || !roleRef.current) return;
+    if (!containerRef.current || !cardRef.current || !titleRef.current) return;
 
-    const splitHeadline = new SplitType(headlineRef.current, { types: 'chars' });
+    // Advanced Text Reveal
+    const splitTitle = new SplitType(titleRef.current, { types: 'chars' });
+    gsap.set(splitTitle.chars, { opacity: 0, scale: 0, rotationX: 90, z: -100 });
     
-    gsap.set(splitHeadline.chars, { opacity: 0, y: 150, rotateX: -90, transformOrigin: "0% 50% -50" });
-    gsap.set(roleRef.current, { opacity: 0, y: 30 });
-    
-    const tl = gsap.timeline({ defaults: { ease: "expo.out", force3D: true } });
-
-    tl.to(splitHeadline.chars, {
+    gsap.to(splitTitle.chars, {
       opacity: 1,
-      y: 0,
-      rotateX: 0,
+      scale: 1,
+      rotationX: 0,
+      z: 0,
       duration: 1.5,
       stagger: 0.04,
-      delay: 0.1,
-    })
-    .to(roleRef.current, {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-    }, "-=1.2");
+      ease: "elastic.out(1, 0.5)",
+      delay: 0.2
+    });
+
+    // 3D Magnetic Hover for the massive Hero Card
+    const xTo = gsap.quickTo(cardRef.current, "rotationY", { duration: 0.8, ease: "power3.out" });
+    const yTo = gsap.quickTo(cardRef.current, "rotationX", { duration: 0.8, ease: "power3.out" });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = containerRef.current!.getBoundingClientRect();
+      // Calculate from center of the screen
+      const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+      const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+      
+      // intense tilt
+      xTo(x * 20); 
+      yTo(y * -20);
+    };
+
+    const handleMouseLeave = () => {
+      xTo(0);
+      yTo(0);
+    };
+
+    containerRef.current.addEventListener("mousemove", handleMouseMove);
+    containerRef.current.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      splitHeadline.revert();
-      tl.kill();
+      containerRef.current?.removeEventListener("mousemove", handleMouseMove);
+      containerRef.current?.removeEventListener("mouseleave", handleMouseLeave);
+      splitTitle.revert();
     };
   }, []);
 
   return (
-    <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section ref={containerRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-background perspective-1000">
       
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[800px] max-h-[800px] opacity-30"
-          style={{
-            background: 'radial-gradient(circle, rgba(34,197,94,0.2) 0%, rgba(0,0,0,0) 70%)',
-            transform: 'translateZ(0)' 
-          }}
-        />
-        
-        {/* Grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%2322C55E\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-          }}
-        />
-        
-        {/* Vignette */}
-        <div className="absolute inset-0 bg-background [mask-image:radial-gradient(transparent,black)] pointer-events-none" />
-      </div>
-      
-      <div className="z-10 text-center w-full px-4 flex flex-col items-center">
-        <div 
-          ref={roleRef}
-          className="mb-8 px-6 py-2 rounded-full border border-accent-primary/20 bg-accent-primary/5 backdrop-blur-md text-sm font-medium tracking-widest text-accent-primary uppercase shadow-[0_0_20px_rgba(34,197,94,0.1)]"
-        >
-          System Architect & Engineer
+      {/* Intense Glowing Core */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-accent-primary/20 blur-[150px] pointer-events-none transform-gpu" />
+
+      {/* Massive 3D Floating Card */}
+      <div 
+        ref={cardRef} 
+        className="preserve-3d w-full max-w-5xl aspect-[16/9] md:aspect-video mx-6 glass-panel rounded-[2rem] md:rounded-[4rem] border border-white/10 shadow-[0_0_100px_rgba(59,130,246,0.1)] flex flex-col items-center justify-center relative group"
+      >
+        {/* Layer 1: Background Elements */}
+        <div className="absolute inset-0 preserve-3d" style={{ transform: "translateZ(-50px)" }}>
+           <div className="w-full h-full border border-white/5 rounded-[2rem] md:rounded-[4rem] bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
         </div>
 
-        <h1 
-          ref={headlineRef} 
-          className="text-[14vw] md:text-[10vw] leading-[0.8] font-black tracking-tighter uppercase text-white"
-          style={{ perspective: "1000px", willChange: "transform, opacity" }}
-        >
-          Building
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-emerald-300 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]">
-            Systems
-          </span>
-        </h1>
+        {/* Layer 2: Main Content */}
+        <div className="relative z-10 text-center px-6 preserve-3d" style={{ transform: "translateZ(80px)" }}>
+          <p className="font-sans text-accent-secondary text-sm md:text-base tracking-[0.4em] uppercase mb-6 drop-shadow-[0_0_10px_rgba(96,165,250,0.5)]">
+            Full-Stack System Architect
+          </p>
+          
+          <h1 ref={titleRef} className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white drop-shadow-2xl mb-8 leading-tight">
+            ENGINEERING <br/>
+            <span className="text-glow text-transparent bg-clip-text bg-gradient-to-r from-accent-secondary via-accent-primary to-accent-secondary">
+              IMMERSION.
+            </span>
+          </h1>
+          
+          <p className="font-sans text-neutral-400 max-w-xl mx-auto text-sm md:text-lg mb-12">
+            Bridging heavy backend logic with hyper-interactive frontend experiences. We don't just build UI; we architect spatial realities.
+          </p>
+        </div>
 
-        <div className="mt-12 opacity-0 transform translate-y-8" ref={el => {
-          // Add this to your timeline animation so it fades in last
-          if (el) gsap.to(el, { opacity: 1, y: 0, duration: 1, delay: 1.5, ease: "power3.out" });
-        }}>
+        {/* Layer 3: Floating Action */}
+        <div className="absolute bottom-12 md:bottom-20 preserve-3d" style={{ transform: "translateZ(120px)" }}>
           <Magnetic>
-            <button className="px-8 py-4 rounded-full bg-white text-black font-semibold tracking-wide text-sm uppercase hover:bg-accent-primary hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all duration-300 cursor-pointer">
-              Explore Architecture
+            <button className="px-8 py-4 rounded-full bg-white text-black font-sans text-xs font-bold tracking-[0.2em] uppercase hover:scale-110 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+              Initiate Sequence
             </button>
           </Magnetic>
         </div>
+
       </div>
     </section>
   );
