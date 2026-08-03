@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#3B82F6" flood-opacity="0.8" />
+    </filter>
+  </defs>
+  
+  <!-- Transparent background for versatility -->
+  <rect width="512" height="512" fill="transparent" />
+  
+  <g filter="url(#neon)">
+    <!-- Isometric Outer Hexagon -->
+    <path d="M256 64L432 165.61V346.39L256 448L80 346.39V165.61L256 64Z" stroke="url(#blueGlow)" stroke-width="24" stroke-linejoin="round"/>
+    
+    <!-- Inner Depth Axes -->
+    <path d="M256 64V256M432 165.61L256 256M80 165.61L256 256M256 256V448" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Glowing Tech Core -->
+    <circle cx="256" cy="256" r="36" fill="url(#blueGlow)"/>
+    <circle cx="256" cy="256" r="16" fill="#FFFFFF"/>
+  </g>
+</svg>

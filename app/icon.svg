@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Dark mode backing for the favicon -->
+  <rect width="512" height="512" fill="#0A0A0B" rx="128" />
+  
+  <g>
+    <!-- Isometric Outer Hexagon -->
+    <path d="M256 80L400 163.14V348.86L256 432L112 348.86V163.14L256 80Z" stroke="url(#blueGlow)" stroke-width="32" stroke-linejoin="round"/>
+    
+    <!-- Inner Depth Axes -->
+    <path d="M256 80V256M400 163.14L256 256M112 163.14L256 256M256 256V432" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Core -->
+    <circle cx="256" cy="256" r="48" fill="url(#blueGlow)"/>
+  </g>
+</svg>
