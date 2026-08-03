@@ -26,8 +26,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     });
 
     ticker.lagSmoothing(0);
+    const resizeObserver = new ResizeObserver(() => {
+      ScrollTrigger.refresh();
+    });
+    
+    resizeObserver.observe(document.body);
 
     return () => {
+      resizeObserver.disconnect();
       ticker.remove((time) => {
         lenis.raf(time * 1000);
       });

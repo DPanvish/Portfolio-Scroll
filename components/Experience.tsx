@@ -49,7 +49,7 @@ export default function Experience() {
 
   if (isLoading) {
     return (
-      <section className="py-32 flex flex-col items-center justify-center border-t border-white/5">
+      <section className="min-h-screen flex flex-col items-center justify-center border-t border-white/5">
         <Loader2 className="w-8 h-8 animate-spin text-accent-primary mb-4" />
       </section>
     );

@@ -47,7 +47,7 @@ export default function Education() {
 
   if (isLoading) {
     return (
-      <section className="py-24 flex flex-col items-center justify-center border-t border-white/5">
+      <section className="min-h-screen flex flex-col items-center justify-center border-t border-white/5">
         <Loader2 className="w-8 h-8 animate-spin text-accent-secondary mb-4" />
       </section>
     );
